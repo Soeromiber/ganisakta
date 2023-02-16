@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include <geometry_msgs/Vector3.h>
 #include "ganisakta/type/quaternion.hpp"
 
@@ -11,6 +12,9 @@ namespace ganisakta
 
         struct EulerAngles
         {
+            static EulerAngles toEulerAnglesDegree(const EulerAngles& ypr);
+            static EulerAngles fromQuaternion(const Quaternion& quaternion);
+
             EulerAngles();
             EulerAngles(double roll, double pitch, double yaw);
             EulerAngles(const geometry_msgs::Vector3& ypr);
@@ -29,6 +33,7 @@ namespace ganisakta
             geometry_msgs::Vector3 toVector3();
             std::array<double, AXES> toArray();
             Quaternion toQuaternion();
+            EulerAngles toEulerAnglesDegree();
             double roll;  // rotation around x-axis
             double pitch; // rotation around y-axis
             double yaw;   // rotation around z-axis

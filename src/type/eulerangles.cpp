@@ -4,6 +4,21 @@ namespace ganisakta
 {
     namespace type
     {
+        // Static
+        EulerAngles EulerAngles::fromQuaternion(const Quaternion& quaternion)
+        {
+            double roll = atan2(2 * (quaternion.w * quaternion.x + quaternion.y * quaternion.z), 1 - 2 * (quaternion.x * quaternion.x + quaternion.y * quaternion.y));
+            double pitch = asin(2 * (quaternion.w * quaternion.y - quaternion.z * quaternion.x));
+            double yaw = atan2(2 * (quaternion.w * quaternion.z + quaternion.x * quaternion.y), 1 - 2 * (quaternion.y * quaternion.y + quaternion.z * quaternion.z));
+            return EulerAngles(roll, pitch, yaw);
+        }
+
+        EulerAngles EulerAngles::toEulerAnglesDegree(const EulerAngles& ypr)
+        {
+            return EulerAngles(ypr.roll * 180 / M_PI, ypr.pitch * 180 / M_PI, ypr.yaw * 180 / M_PI);
+        }        
+            
+        // Non-static
         EulerAngles::EulerAngles()
         {
             roll = 0;
@@ -142,6 +157,11 @@ namespace ganisakta
             q.y = cr * sp * cy + sr * cp * sy;
             q.z = cr * cp * sy - sr * sp * cy;
             return q;
-        }   
+        }
+
+        EulerAngles EulerAngles::toEulerAnglesDegree()
+        {
+            return EulerAngles(roll * 180 / M_PI, pitch * 180 / M_PI, yaw * 180 / M_PI);
+        }
     }
 }

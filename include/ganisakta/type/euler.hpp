@@ -1,5 +1,6 @@
 #pragma once
 
+#include <stdexcept>
 #include <geometry_msgs/Vector3.h>
 
 namespace ganisakta
