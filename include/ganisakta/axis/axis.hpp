@@ -3,6 +3,7 @@
 
 #include <iostream>
 #include <array>
+#include "ganisakta/type/euler.hpp"
 
 namespace ganisakta
 {
@@ -93,7 +94,7 @@ namespace ganisakta
         #define ZF_XD_YL {{{-1, 0, 0}, {0, 0, 1}, {0, -1, 0}}}
         // x-axis up negative, y-axis front negative, and z-axis right negative
         #define ZB_XD_YL {{{-1, 0, 0}, {0, 0, -1}, {0, -1, 0}}}
-        
+
         class AXIS
         {
             private:
@@ -109,6 +110,7 @@ namespace ganisakta
                 std::array<std::array<double, AXES>, AXES> getTransformationMatrix(const std::array<std::array<double, AXES>, AXES>& original_coordinate_system,
                                                                             const std::array<std::array<double, AXES>, AXES>& target_coordinate_system);
                 std::array<double, AXES> transformPoint(const std::array<double, AXES>& point);
+                ganisakta::type::Euler transformPoint(const ganisakta::type::Euler& euler);
         };
     }
 }
