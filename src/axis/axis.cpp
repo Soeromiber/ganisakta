@@ -55,5 +55,12 @@ namespace ganisakta
         {
             return this->transform(point, this->transformationMatrix);
         }
+
+        ganisakta::type::Euler AXIS::transformPoint(const ganisakta::type::Euler& euler)
+        {
+            std::array<double, AXES> euler_array = ganisakta::type::Euler(euler).toArray();
+            std::array<double, AXES> transformed_euler_array = this->transform(euler_array, this->transformationMatrix);
+            return ganisakta::type::Euler(transformed_euler_array);
+        }
     }
 }
