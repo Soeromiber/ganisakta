@@ -24,6 +24,8 @@ jobs:
             sudo apt-get install -y python3-wstool
             sudo apt-get install -y ros-cmake-modules
             sudo apt-get install -y ros-$ROS_DISTRO-catkin
+            sudo apt-get install -y ros-$ROS_DISTRO-roscpp
+            sudo apt-get install -y ros-$ROS_DISTRO-mavros ros-$ROS_DISTRO-mavros-extras
             source /opt/ros/$ROS_DISTRO/setup.bash
       - name: Install ROS packages with rosdep
         run: |
@@ -37,13 +39,20 @@ jobs:
           rosdep install --from-paths src --ignore-src -r -s  # do a dry-run first
           rosdep install --from-paths src --ignore-src -r -y
 
-      - name: catkin build Soero
+      - name: catkin build
         run: |
           source /opt/ros/$ROS_DISTRO/setup.bash
 
           cd ~/catkin_ws/
           catkin build --no-status
           source devel/setup.bash
+      - name: rostest
+        run: |
+          source /opt/ros/$ROS_DISTRO/setup.bash
+          source ~/catkin_ws/devel/setup.bash
+
+          rostest ganisakta test.launch
+          
       # - name: lint
       #   run: |
       #     cd ~/catkin_ws

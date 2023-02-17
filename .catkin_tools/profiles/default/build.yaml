@@ -1,7 +1,8 @@
 authors: []
 blacklist: []
 build_space: build
-catkin_make_args: []
+catkin_make_args:
+- rostest
 cmake_args: []
 devel_layout: linked
 devel_space: devel

@@ -3,13 +3,14 @@
 #include <stdexcept>
 #include <geometry_msgs/Vector3.h>
 #include "ganisakta/type/quaternion.hpp"
+#include "ganisakta/type/angle.hpp"
 
 namespace ganisakta
 {
     namespace type
     {
         #define AXES 3
-
+        struct Quaternion; // Forward declaration
         struct EulerAngles
         {
             static EulerAngles toEulerAnglesDegree(const EulerAngles& ypr);
@@ -27,7 +28,7 @@ namespace ganisakta
             EulerAngles operator-=(const EulerAngles& ypr);
             EulerAngles operator*=(const double& scalar);
             EulerAngles operator/=(const double& scalar);
-            bool operator==(const EulerAngles& ypr);
+            bool operator==(const EulerAngles& ypr) const;
             bool operator!=(const EulerAngles& ypr);
             double& operator[](const int& index);
             geometry_msgs::Vector3 toVector3();
