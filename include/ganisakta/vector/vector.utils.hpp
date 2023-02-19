@@ -3,11 +3,13 @@
 
 #include <iostream>
 #include <array>
-#include "ganisakta/type/euler.hpp"
+#include "ganisakta/vector/vector.hpp"
+#include "ganisakta/point/point.hpp"
 
 namespace ganisakta
 {
-    namespace axis {
+    namespace vector 
+    {
 
         #define AXES 3
 
@@ -95,7 +97,7 @@ namespace ganisakta
         // x-axis up negative, y-axis front negative, and z-axis right negative
         #define ZB_XD_YL {{{-1, 0, 0}, {0, 0, -1}, {0, -1, 0}}}
 
-        class AXIS
+        class Rotation
         {
             private:
                 std::array<std::array<double, AXES>, AXES> from;
@@ -103,14 +105,15 @@ namespace ganisakta
                 std::array<std::array<double, AXES>, AXES> transformationMatrix;
 
             public:
-                AXIS();
-                AXIS(const std::array<std::array<double, AXES>, AXES>& from, const std::array<std::array<double, AXES>, AXES>& to);
+                Rotation();
+                Rotation(const std::array<std::array<double, AXES>, AXES>& from, const std::array<std::array<double, AXES>, AXES>& to);
                 std::array<double, AXES> transform(const std::array<double, AXES>& v, 
                                                 const std::array<std::array<double, AXES>, AXES>& T);
                 std::array<std::array<double, AXES>, AXES> getTransformationMatrix(const std::array<std::array<double, AXES>, AXES>& original_coordinate_system,
                                                                             const std::array<std::array<double, AXES>, AXES>& target_coordinate_system);
-                std::array<double, AXES> transformPoint(const std::array<double, AXES>& point);
-                ganisakta::type::Euler transformPoint(const ganisakta::type::Euler& euler);
+                std::array<double, AXES> transform(const std::array<double, AXES>& point);
+                ganisakta::point::Point transform(const ganisakta::point::Point& point);
+                ganisakta::vector::Vector transform(const ganisakta::vector::Vector& vector);
         };
     }
 }

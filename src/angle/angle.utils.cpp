@@ -1,8 +1,8 @@
-#include "ganisakta/type/angle.hpp"
+#include "ganisakta/angle/angle.utils.hpp"
 
 namespace ganisakta
 {
-    namespace type
+    namespace angle
     {
         // Convert radian into 0 - +2pi range
         double radian::normalize2PI(double rad){

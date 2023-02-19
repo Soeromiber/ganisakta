@@ -1,21 +1,23 @@
 #include <gtest/gtest.h>
-#include "ganisakta/type/quaternion.hpp"
+#include "ganisakta/quaternion/quaternion.hpp"
+#include "ganisakta/angle/angle.hpp"
 
-using namespace ganisakta::type;
+using namespace ganisakta::quaternion;
+using namespace ganisakta::angle;
 
 TEST(QuaternionTest, ToEulerAngles)
 {
     // create a quaternion with roll=0, pitch=0, yaw=0
     Quaternion q1(0.0, 0.0, 0.0, 1.0);
-    EulerAngles expected(0.0, 0.0, 0.0);
-    EulerAngles result = Quaternion::toEulerAngles(q1);
+    Angle expected(0.0, 0.0, 0.0);
+    Angle result = Quaternion::toEulerAngles(q1);
     EXPECT_NEAR(expected.roll, result.roll, 0.001);
     EXPECT_NEAR(expected.pitch, result.pitch, 0.001);
     EXPECT_NEAR(expected.yaw, result.yaw, 0.001);
 
     // create a quaternion with roll=pi/4, pitch=pi/4, yaw=pi/4
     Quaternion q2(0.5, 0.5, 0.5, 0.5);
-    expected = EulerAngles(1.5708, 0.0, 1.5708);
+    expected = Angle(1.5708, 0.0, 1.5708);
     result = Quaternion::toEulerAngles(q2);
     EXPECT_NEAR(expected.roll, result.roll, 0.001);
     EXPECT_NEAR(expected.pitch, result.pitch, 0.001);
@@ -23,7 +25,7 @@ TEST(QuaternionTest, ToEulerAngles)
 
     // create a quaternion with roll=0, pitch=pi/2, yaw=0
     Quaternion q3(0.707, 0.0, 0.0, 0.707);
-    expected = EulerAngles(1.5708, 0.0, 0.0);
+    expected = Angle(1.5708, 0.0, 0.0);
     result = Quaternion::toEulerAngles(q3);
     EXPECT_NEAR(expected.roll, result.roll, 0.001);
     EXPECT_NEAR(expected.pitch, result.pitch, 0.001);

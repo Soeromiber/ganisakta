@@ -1,6 +1,6 @@
 <launch>
-  <test test-name="angles_test" pkg="ganisakta" type="AnglesTest" />
+  <test test-name="angle_utils_test" pkg="ganisakta" type="AnglesUtilsTest" />
   <test test-name="triangle_test" pkg="ganisakta" type="TriangleTest" />
   <test test-name="quaternion_test" pkg="ganisakta" type="QuaternionTest" />
-  <test test-name="euler_angles_test" pkg="ganisakta" type="EulerAnglesTest" />
+  <test test-name="angle_test" pkg="ganisakta" type="AnglesTest" />
 </launch>

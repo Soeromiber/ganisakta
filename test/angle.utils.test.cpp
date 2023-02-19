@@ -1,7 +1,7 @@
 #include <gtest/gtest.h>
-#include <ganisakta/type/angle.hpp>
+#include <ganisakta/angle/angle.utils.hpp>
 
-using namespace ganisakta::type;
+using namespace ganisakta::angle;
 
 TEST(AngleTest, NormalizeRadTest) {
     // Test with radian value greater than pi
