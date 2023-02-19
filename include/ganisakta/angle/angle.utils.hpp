@@ -5,7 +5,7 @@
 
 namespace ganisakta
 {
-    namespace type
+    namespace angle
     {
         struct radian
         {

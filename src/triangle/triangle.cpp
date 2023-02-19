@@ -1,4 +1,4 @@
-#include "ganisakta/type/triangle.hpp"
+#include "ganisakta/triangle/triangle.hpp"
 
 namespace ganisakta
 {
@@ -83,81 +83,5 @@ namespace ganisakta
                 return;
             }
         }
-
-        // double Triangle::getA()
-        // {
-        //     // Check if a is given
-        //     if(this->a != 0)
-        //     {
-        //         return a;
-        //     }
-
-        //     // Check if b and c is given and is right triangle
-        //     // if(this->b != 0 && this->c != 0 && this->alpha == M_PI_2)
-        //     // {
-        //     //     this->a = std::sqrt(std::pow(c, 2) - std::pow(b, 2));
-        //     //     return this->a;
-        //     // }
-
-        //     // Check if b and c and alpha is given
-        //     if(this->b != 0 && this->c != 0 && this->alpha != 0)
-        //     {
-        //         this->a = std::sqrt(std::pow(b, 2) + std::pow(c, 2) - 2 * b * c * std::cos(alpha));
-        //         return this->a;
-        //     }
-
-        //     // Check if b and alpha is given
-        //     if(this->b != 0 && this->alpha != 0)
-        //     {
-        //         this->a = b * std::tan(alpha);
-        //         return this->a;
-        //     }
-
-        //     // Check if c and alpha is given
-        //     if(this->c != 0 && this->alpha != 0)
-        //     {
-        //         this->a = c * std::sin(alpha);
-        //         return this->a;
-        //     }
-
-        //     // Check if b and beta is given
-        //     if(this->b != 0 && this->beta != 0)
-        //     {
-        //         this->a = b / std::tan(beta);
-        //         return this->a;
-        //     }
-
-        //     // Check if c and beta is given
-        //     if(this->c != 0 && this->beta != 0)
-        //     {
-        //         this->a = c * std::cos(beta);
-        //         return this->a;
-        //     }
-        // }
-
-        // double Triangle::getB()
-        // {
-        //     return b;
-        // }
-
-        // double Triangle::getC()
-        // {
-        //     return c;
-        // }
-
-        // double Triangle::getAlpha()
-        // {
-        //     return alpha;
-        // }
-
-        // double Triangle::getBeta()
-        // {
-        //     return beta;
-        // }
-
-        // double Triangle::getGamma()
-        // {
-        //     return gamma;
-        // }
     }
 }

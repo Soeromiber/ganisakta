@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "ganisakta/type/triangle.hpp"
+#include "ganisakta/triangle/triangle.hpp"
 
 TEST(TriangleTest, DefaultConstructor) {
   ganisakta::type::Triangle t;

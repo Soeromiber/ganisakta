@@ -32,7 +32,7 @@ include_directories(
 )
 
 # ------- Make Library -------
-set(SOURCES src/type/triangle.cpp src/type/quaternion.cpp src/type/eulerangles.cpp src/type/angle.cpp)
+set(SOURCES src/triangle/triangle.cpp src/quaternion/quaternion.cpp src/angle/angle.cpp src/angle/angle.utils.cpp)
 # set(HEADERS ${INCLUDE_DIR}/type/triangle.hpp ${INCLUDE_DIR}/type/quaternion.hpp ${INCLUDE_DIR}/type/eulerangles.hpp)
 
 add_library(${PROJECT_NAME} ${SOURCES})
@@ -48,16 +48,16 @@ target_link_libraries(${PROJECT_NAME}
 # ------- Make Library -------
 
 # ------- Test Files -------
-add_executable(TriangleTest test/type/triangle.test.cpp)
-add_executable(QuaternionTest test/type/quaternion.test.cpp)
-add_executable(EulerAnglesTest test/type/eulerangles.test.cpp)
-add_executable(AnglesTest test/type/angle.test.cpp)
+add_executable(TriangleTest test/triangle.test.cpp)
+add_executable(QuaternionTest test/quaternion.test.cpp)
+add_executable(AnglesTest test/angle.test.cpp)
+add_executable(AnglesUtilsTest test/angle.utils.test.cpp)
 
 # Link your test files with gtest library
 target_link_libraries(TriangleTest gtest gtest_main pthread ${PROJECT_NAME})
 target_link_libraries(QuaternionTest gtest gtest_main pthread ${PROJECT_NAME})
-target_link_libraries(EulerAnglesTest gtest gtest_main pthread ${PROJECT_NAME})
 target_link_libraries(AnglesTest gtest gtest_main pthread ${PROJECT_NAME})
+target_link_libraries(AnglesUtilsTest gtest gtest_main pthread ${PROJECT_NAME})
 
 # Add your test files here
 add_test(
@@ -69,11 +69,11 @@ add_test(
   COMMAND QuaternionTest
 )
 add_test(
-  NAME EulerAnglesTest
-  COMMAND EulerAnglesTest
-)
-add_test(
   NAME AnglesTest
   COMMAND AnglesTest
+)
+add_test(
+  NAME AnglesUtilsTest
+  COMMAND AnglesUtilsTest
 )
 # ------- Test Files -------
