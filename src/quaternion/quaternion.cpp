@@ -44,6 +44,50 @@ namespace ganisakta
             return angle::Angle::toArray(angle);
         }
 
+        Quaternion Quaternion::conjugate(const Quaternion& quaternion)
+        {
+            Quaternion q;
+            q.x = -quaternion.x;
+            q.y = -quaternion.y;
+            q.z = -quaternion.z;
+            q.w = quaternion.w;
+            return q;
+        }
+        
+        double Quaternion::norm(const Quaternion& quaternion)
+        {
+            return std::sqrt(quaternion.x * quaternion.x + quaternion.y * quaternion.y + quaternion.z * quaternion.z + quaternion.w * quaternion.w);
+        }
+
+        Quaternion Quaternion::normalize(const Quaternion& quaternion)
+        {
+            double n = Quaternion::norm(quaternion);
+            Quaternion q;
+            q.x = quaternion.x / n;
+            q.y = quaternion.y / n;
+            q.z = quaternion.z / n;
+            q.w = quaternion.w / n;
+            return q;
+        }
+
+        Quaternion Quaternion::createRotationQuat(const double& x, const double& y, const double& z, const double& a)
+        {
+            Quaternion q;
+            double factor = std::sin( a / 2.0 );
+            q.x = x * factor;
+            q.y = y * factor;
+            q.z = z * factor;
+            q.w = std::cos(a / 2);
+            return q;
+        }
+
+        Quaternion Quaternion::inverse(const Quaternion& quaternion)
+        {
+            Quaternion conjugate = Quaternion::conjugate(quaternion);
+            double norm = Quaternion::norm(quaternion);
+            return conjugate / (norm * norm);
+        }
+
         Quaternion::Quaternion(const std::array<double, AXES>& rpy)
         {
             double cy = cos(rpy[2] * 0.5);
@@ -89,6 +133,44 @@ namespace ganisakta
             return Quaternion(x * scalar, y * scalar, z * scalar, w * scalar);
         }
 
+        Quaternion Quaternion::operator*(const Quaternion& quaternion)
+        {
+            // Quaternion q;
+            // q.x = w * quaternion.x + x * quaternion.w + y * quaternion.z - z * quaternion.y;
+            // q.y = w * quaternion.y + y * quaternion.w + z * quaternion.x - x * quaternion.z;
+            // q.z = w * quaternion.z + z * quaternion.w + x * quaternion.y - y * quaternion.x;
+            // q.w = w * quaternion.w - x * quaternion.x - y * quaternion.y - z * quaternion.z;
+            // return q;
+
+            // return Quaternion(
+            //                 w*quaternion.x + x*quaternion.w + y*quaternion.z - z*quaternion.y,
+            //                 w*quaternion.y - x*quaternion.z + y*quaternion.w + z*quaternion.x,
+            //                 w*quaternion.z + x*quaternion.y - y*quaternion.x + z*quaternion.w,
+            //                 w*quaternion.w - x*quaternion.x - y*quaternion.y - z*quaternion.z
+            // );
+
+            // Quaternion q;
+            // q.w = w * quaternion.w - x * quaternion.x - y * quaternion.y - z * quaternion.z;
+            // q.x = w * quaternion.x + x * quaternion.w + y * quaternion.z - z * quaternion.y;
+            // q.y = w * quaternion.y - x * quaternion.z + y * quaternion.w + z * quaternion.x;
+            // q.z = w * quaternion.z + x * quaternion.y - y * quaternion.x + z * quaternion.w;
+            // return q;
+
+            // return Quaternion(
+            //     w*quaternion.x + x*quaternion.w + y*quaternion.z - z*quaternion.y,
+            //     w*quaternion.y - x*quaternion.z + y*quaternion.w + z*quaternion.x,
+            //     w*quaternion.z + x*quaternion.y - y*quaternion.x + z*quaternion.w,
+            //     w*quaternion.w - x*quaternion.x - y*quaternion.y - z*quaternion.z
+            // );
+
+            return Quaternion(
+                w*quaternion.x + x*quaternion.w + y*quaternion.z - z*quaternion.y,
+                w*quaternion.y - x*quaternion.z + y*quaternion.w + z*quaternion.x,
+                w*quaternion.z + x*quaternion.y - y*quaternion.x + z*quaternion.w,
+                w*quaternion.w - x*quaternion.x - y*quaternion.y - z*quaternion.z
+            );
+        }
+
         Quaternion Quaternion::operator/(const double& scalar)
         {
             return Quaternion(x / scalar, y / scalar, z / scalar, w / scalar);
@@ -121,6 +203,12 @@ namespace ganisakta
             return *this;
         }
 
+        Quaternion& Quaternion::operator*=(const Quaternion& quaternion)
+        {
+            *this = *this * quaternion;
+            return *this;
+        }
+
         Quaternion& Quaternion::operator/=(const double& scalar)
         {
             x /= scalar;
@@ -130,12 +218,18 @@ namespace ganisakta
             return *this;
         }
 
+        std::ostream& operator<<(std::ostream& os, const Quaternion& quaternion)
+        {
+            os << "Quaternion(" << quaternion.x << ", " << quaternion.y << ", " << quaternion.z << ", " << quaternion.w << ")";
+            return os;
+        }
+
         bool Quaternion::operator==(const Quaternion& quaternion) const
         {
             return std::fabs(x - quaternion.x) <= 0.001 && std::fabs(y - quaternion.y) <= 0.001 && std::fabs(z - quaternion.z) <= 0.001 && std::fabs(w - quaternion.w) <= 0.001;
         }
 
-        bool Quaternion::operator!=(const Quaternion& quaternion)
+        bool Quaternion::operator!=(const Quaternion& quaternion) const
         {
             return x != quaternion.x || y != quaternion.y || z != quaternion.z || w != quaternion.w;
         }
@@ -187,6 +281,58 @@ namespace ganisakta
             x = -x;
             y = -y;
             z = -z;
+            return *this;
+        }
+
+        double Quaternion::norm()
+        {
+            return Quaternion::norm(*this);
+        }
+
+        Quaternion Quaternion::normalize()
+        {
+            Quaternion normalized = Quaternion::normalize(*this);
+            x = normalized.x;
+            y = normalized.y;
+            z = normalized.z;
+            w = normalized.w;
+            return *this;
+        }
+
+        Quaternion Quaternion::inverse()
+        {
+            Quaternion inverse = Quaternion::inverse(*this);
+            x = inverse.x;
+            y = inverse.y;
+            z = inverse.z;
+            w = inverse.w;
+            return *this;
+        }
+
+        Quaternion Quaternion::rotate(const double& rotX, const double& rotY, const double& rotZ)
+        {
+            // Quaternion qx = Quaternion::createRotationQuat(1, 0, 0, rotX).normalize();
+            // std::cerr << "qx: " << qx << std::endl;
+            // Quaternion qy = Quaternion::createRotationQuat(0, 1, 0, rotY).normalize();
+            // std::cerr << "qy: " << qy << std::endl;
+            // Quaternion qz = Quaternion::createRotationQuat(0, 0, 1, rotZ).normalize();
+            // std::cerr << "qz: " << qz << std::endl;
+            // *this = qz * qy * qx * (*this) * qx.conjugate() * qy.conjugate() * qz.conjugate();
+
+            Quaternion qx = Quaternion::createRotationQuat(1, 0, 0, rotX).normalize();
+            std::cerr << "qx: " << qx << std::endl;
+            Quaternion qy = Quaternion::createRotationQuat(0, 1, 0, rotY).normalize();
+            std::cerr << "qy: " << qy << std::endl;
+            Quaternion qz = Quaternion::createRotationQuat(0, 0, 1, rotZ).normalize();
+            std::cerr << "qz: " << qz << std::endl;
+
+            *this = qz * (*this) * Quaternion::conjugate(qz);
+            std::cerr << "(*x): " << (*this) << std::endl;
+            *this = qy * (*this) * Quaternion::conjugate(qy);
+            std::cerr << "(*y): " << (*this) << std::endl;
+            *this = qx * (*this) * Quaternion::conjugate(qx);
+            std::cerr << "(*z): " << (*this) << std::endl;
+
             return *this;
         }
     }

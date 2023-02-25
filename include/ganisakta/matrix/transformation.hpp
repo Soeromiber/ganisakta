@@ -8,7 +8,7 @@
 
 namespace ganisakta
 {
-    namespace vector 
+    namespace matrix 
     {
 
         #define AXES 3
@@ -97,7 +97,7 @@ namespace ganisakta
         // x-axis up negative, y-axis front negative, and z-axis right negative
         #define ZB_XD_YL {{{-1, 0, 0}, {0, 0, -1}, {0, -1, 0}}}
 
-        class Rotation
+        class Transformation
         {
             private:
                 std::array<std::array<double, AXES>, AXES> from;
@@ -105,8 +105,8 @@ namespace ganisakta
                 std::array<std::array<double, AXES>, AXES> transformationMatrix;
 
             public:
-                Rotation();
-                Rotation(const std::array<std::array<double, AXES>, AXES>& from, const std::array<std::array<double, AXES>, AXES>& to);
+                Transformation();
+                Transformation(const std::array<std::array<double, AXES>, AXES>& from, const std::array<std::array<double, AXES>, AXES>& to);
                 std::array<double, AXES> transform(const std::array<double, AXES>& v, 
                                                 const std::array<std::array<double, AXES>, AXES>& T);
                 std::array<std::array<double, AXES>, AXES> getTransformationMatrix(const std::array<std::array<double, AXES>, AXES>& original_coordinate_system,
