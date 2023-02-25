@@ -1,19 +1,19 @@
-#include "ganisakta/vector/vector.utils.hpp"
+#include "ganisakta/matrix/transformation.hpp"
 
 namespace ganisakta 
 {
-    namespace vector
+    namespace matrix
     {
-        Rotation::Rotation(){};
+        Transformation::Transformation(){};
 
-        Rotation::Rotation(const std::array<std::array<double, AXES>, AXES>& from, const std::array<std::array<double, AXES>, AXES>& to)
+        Transformation::Transformation(const std::array<std::array<double, AXES>, AXES>& from, const std::array<std::array<double, AXES>, AXES>& to)
         {
             this->from = from;
             this->to = to;
             this->transformationMatrix = getTransformationMatrix(this->from, this->to);
         }
 
-        std::array<double, AXES> Rotation::transform(const std::array<double, AXES>& v, 
+        std::array<double, AXES> Transformation::transform(const std::array<double, AXES>& v, 
                                         const std::array<std::array<double, AXES>, AXES>& T)
         {
             std::array<double, AXES> result;
@@ -28,7 +28,7 @@ namespace ganisakta
             return result;
         }
 
-        std::array<std::array<double, AXES>, AXES> Rotation::getTransformationMatrix(const std::array<std::array<double, AXES>, AXES>& original_coordinate_system,
+        std::array<std::array<double, AXES>, AXES> Transformation::getTransformationMatrix(const std::array<std::array<double, AXES>, AXES>& original_coordinate_system,
                                                                     const std::array<std::array<double, AXES>, AXES>& target_coordinate_system)
         {
             std::array<std::array<double, AXES>, AXES> T;
@@ -51,19 +51,19 @@ namespace ganisakta
             return T;
         }
 
-        std::array<double, AXES> Rotation::transform(const std::array<double, AXES>& point)
+        std::array<double, AXES> Transformation::transform(const std::array<double, AXES>& point)
         {
             return this->transform(point, this->transformationMatrix);
         }
 
-        ganisakta::point::Point Rotation::transform(const ganisakta::point::Point& point)
+        ganisakta::point::Point Transformation::transform(const ganisakta::point::Point& point)
         {
             std::array<double, AXES> point_array = ganisakta::point::Point(point).toArray();
             std::array<double, AXES> transformed_euler_array = this->transform(point_array, this->transformationMatrix);
             return ganisakta::point::Point(transformed_euler_array);
         }
 
-        ganisakta::vector::Vector Rotation::transform(const ganisakta::vector::Vector& vector)
+        ganisakta::vector::Vector Transformation::transform(const ganisakta::vector::Vector& vector)
         {
             std::array<double, AXES> vector_array = ganisakta::vector::Vector(vector).toArray();
             std::array<double, AXES> transformed_euler_array = this->transform(vector_array, this->transformationMatrix);
